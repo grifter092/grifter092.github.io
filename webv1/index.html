@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRISTAL LAB 9.0</title>
+
+<style>
+
+.escudo {
+    margin-top: 20px;
+    background: #111;
+    border: 2px solid var(--pink);
+    border-radius: 8px;
+    padding: 20px;  /* Aumenté el padding */
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.escudo:hover {
+    border-color: var(--neon);
+    box-shadow: 0 0 20px var(--neon);
+}
+
+.escudo svg {
+    width: 180px;  /* Aumentado de 120px a 180px */
+    height: auto;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.escudo:hover svg {
+    filter: drop-shadow(0 0 8px var(--pink));
+    transform: scale(1.05);
+}
+
+
+
+
+
+
+
+
+
+
+.footer-panel {
+    margin-top: 60px;
+    background: #111;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 16px;
+    border-top: 3px solid var(--pink);
+}
+
+.footer-panel h3,
+.footer-panel p,
+.footer-panel a {
+    color: var(--green);
+    text-decoration: none;
+}
+
+.footer-panel a:hover {
+    text-shadow: 0 0 6px var(--green);
+}
+
+.footer-right {
+    text-align: right;
+}
+
+.footer-panel img {
+    width: 85px;
+    margin-top: 15px;
+}
+
+
+
+
+:root{
+--neon:#00ffd5;
+--pink:#ff00c8;
+--bg:#050508;
+}
+.subNav{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+margin:20px 0;
+}
+
+.subNav button{
+background:#111;
+border:1px solid var(--neon);
+color:var(--neon);
+padding:8px 15px;
+margin:5px;
+cursor:pointer;
+font-family:inherit;
+font-size:14px;
+}
+
+.subNav button:hover{
+background:var(--neon);
+color:black;
+}
+.crystalTable tbody tr{
+opacity:0;
+transform:translateX(-20px);
+animation:rowAppear 0.6s ease forwards;
+}
+
+.crystalTable tbody tr:nth-child(1){ animation-delay:0.2s; }
+.crystalTable tbody tr:nth-child(2){ animation-delay:0.4s; }
+.crystalTable tbody tr:nth-child(3){ animation-delay:0.6s; }
+.crystalTable tbody tr:nth-child(4){ animation-delay:0.8s; }
+
+@keyframes rowAppear{
+to{
+opacity:1;
+transform:translateX(0);
+}
+}
+.crystalTable{
+width:80%;
+margin:40px auto; /* CENTRA la tabla */
+border-collapse:collapse;
+color:var(--neon);
+background:rgba(0,0,0,0.4);
+box-shadow:0 0 25px rgba(0,255,213,0.3);
+}
+
+.crystalTable th{
+border-bottom:2px solid var(--pink);
+padding:15px;
+text-align:left;
+color:var(--pink);
+font-weight:bold;
+}
+
+.crystalTable td{
+padding:15px;
+border-bottom:1px solid rgba(0,255,213,0.2);
+}
+
+.crystalTable tr:hover{
+background:rgba(0,255,213,0.05);
+transition:0.3s;
+}
+
+.crystalImg{
+width:100%;
+max-width:500px;
+display:block;
+margin:30px auto;
+border:2px solid var(--neon);
+box-shadow:0 0 25px rgba(0,255,213,0.5);
+border-radius:8px;
+}
+
+#geometry{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1; /* entre el fondo y el contenido */
+pointer-events:none;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:'Courier New',monospace;
+background:linear-gradient(180deg,#050508,#0a0a18);
+color:var(--neon);
+overflow-x:hidden;
+}
+
+/* Fondo animado */
+.background{
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at 20% 30%, rgba(255,0,200,0.08), transparent 40%),
+radial-gradient(circle at 80% 70%, rgba(0,255,213,0.08), transparent 40%),
+linear-gradient(rgba(0,255,213,0.05) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,255,213,0.05) 1px, transparent 1px);
+background-size:100% 100%,100% 100%,40px 40px,40px 40px;
+animation:bgMove 20s linear infinite;
+z-index:-2;
+}
+
+@keyframes bgMove{
+from{background-position:0 0,0 0,0 0,0 0}
+to{background-position:0 0,0 0,0 40px,40px 0}
+}
+
+/* VHS */
+#vhs{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+pointer-events:none;
+z-index:4;
+}
+
+/* ESTATICA */
+#static{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+display:none;
+z-index:6;
+background:black;
+pointer-events:none;
+}
+
+/* HEADER */
+header{
+text-align:center;
+padding:20px;
+border-bottom:2px solid var(--pink);
+}
+
+h1{color:var(--pink)}
+
+/* MENU */
+nav{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+background:#111;
+}
+
+nav button{
+background:#111;
+border:2px solid var(--pink);
+color:var(--pink);
+padding:10px;
+margin:8px;
+cursor:pointer;
+font-family:inherit;
+}
+
+nav button:hover{
+background:var(--pink);
+color:white;
+}
+
+/* SECTIONS */
+section{
+display:none;
+padding:25px;
+max-width:1600px;
+margin:auto;
+}
+
+section.active{display:block}
+
+/* Juegos */
+.gameBox{
+border:2px solid var(--pink);
+padding:20px;
+background:#0c0c18;
+margin-bottom:50px;
+box-shadow:0 0 35px rgba(0,255,213,0.4);
+}
+
+/* 🔥 PANTALLAS ULTRA GRANDES */
+iframe{
+width:100%;
+height:90vh;   /* 90% de la altura de la pantalla */
+border:3px solid var(--neon);
+margin-top:15px;
+border-radius:8px;
+}
+
+/* Responsive */
+@media(max-width:1200px){
+iframe{height:75vh;}
+}
+
+@media(max-width:900px){
+iframe{height:60vh;}
+}
+
+@media(max-width:600px){
+iframe{height:45vh;}
+nav button{width:90%}
+}
+</style>
+
+</head>
+<body>
+
+<div class="background"></div>
+<canvas id="geometry"></canvas>
+<canvas id="vhs"></canvas>
+<canvas id="static"></canvas>
+
+<header>
+<h1>CRISTAL LAB 9.0</h1>
+<p>Simulaciones Científicas - Distancia Interplanar</p>
+</header>
+
+<nav>
+<button onclick="changeSection('teoria')">Teoría</button>
+<button onclick="changeSection('games')">Simulaciones</button>
+</nav>
+
+<div class="subNav" id="subNav">
+<button onclick="scrollToSection('miller')">Índices de Miller</button>
+<button onclick="scrollToSection('bragg')">Ley de Bragg</button>
+</div>
+
+<section id="teoria" class="active">
+<h2>Distancia Interplanar</h2>
+
+<p style="margin-top:15px;">
+Es la separación entre dos planos cristalinos paralelos de una misma familia (hkl) en una red cristalina. Esta magnitud es importante en cristalografía para determinar la estructura de los materiales mediante difracción. La distancia perpendicular entre planos se calcula mediante fórmulas dependiendo del sistema cristalino.
+</p>
+
+
+<div style="margin-top:20px;background:#111;padding:20px;border:2px solid var(--pink);font-size:22px;text-align:center;">
+d = a / √(h² + k² + l²)
+</div>
+
+<p style="margin-top:20px;color:#ccc;">
+Para sistemas cubicos donde 
+ es el parámetro de red (longitud de la arista del cubo).
+</p>
+
+<div style="margin-top:20px;background:#111;padding:20px;border:2px solid var(--pink);font-size:22px;text-align:center;">
+1/d² = (h² + k²) / a² + l² / c²
+</div>
+
+<p style="margin-top:20px;color:#ccc;">
+Para sistemas tetragonales ,se utiliza para estructuras donde una de las dimensiones de la celda es distinta.
+</p>
+
+<div style="margin-top:20px;background:#111;padding:20px;border:2px solid var(--pink);font-size:22px;text-align:center;">
+1/d² = h²/a² + k²/b² + l²/c²
+</div>
+
+<p style="margin-top:20px;color:#ccc;">
+Para sistemas ortorrómbicos...pero antes.
+</p><br><br>
+
+<h3 style="margin-top:40px;">¿Qué es una red cristalina?</h3>
+<p style="margin-top:15px;color:#ccc;">
+Es la estructura en cómo se ordenan y empaquetan los átomos, moléculas, o iones de manera ordenada y con patrones repetitivos que se extienden en las tres dimensiones del espacio. <br><br>
+El grupo más pequeño de partículas en el material que constituye el patrón repetitivo es la celda unitaria o unidad elemental la cual genera toda la red definiendo la simetria y la estructura de toda la red, lo que tiene un papel muy importante en la determinación de muchas propiedades físicas, tales como escisión, estructura de banda electrónica y transparencia óptica.
+</p>
+<img class="crystalImg" src="https://images.my.labster.com/2ad3fa0f-d620-4676-ac3c-261faaca70b1/lattice.es_ES.png">
+<p style="text-align:center;color:#aaa;">
+Imagen referencia de red cristalina.
+</p>
+
+<h3 style="margin-top:60px;">Tipos de Redes Cristalinas Cúbicas</h3>
+
+<table class="crystalTable">
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Definición breve</th>
+      <th>Imagen de referencia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Cúbica Simple (SC)</strong></td>
+      <td>
+        Los átomos se encuentran únicamente en las ocho esquinas del cubo.
+      </td>
+      <td>
+        <img class="crystalImg" src="https://elements-resized.envatousercontent.com/elements-cover-images/9133fecb-bef2-42c2-a8fd-6c9e7980cf44?w=1200&h=630&cf_fit=crop&q=85&format=jpeg&s=7d08ea5cead452c5dabd99c348eb5ec60fefd9a48db070705f771e69a88c4c5e">
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Cúbica Centrada en el Cuerpo (BCC)</strong></td>
+      <td>
+        Tiene átomos en las ocho esquinas y uno adicional en el centro del cubo.
+        Es común en metales como el hierro.
+      </td>
+      <td>
+        <img class="crystalImg" src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Structure_cubique_centr%C3%A9e.svg">
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Cúbica Centrada en las Caras (FCC)</strong></td>
+      <td>
+        Presenta átomos en las ocho esquinas y uno en el centro de cada cara del cubo.
+        Es una estructura más compacta.
+      </td>
+      <td>
+        <img class="crystalImg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNLu2E5EnUPmdQ5R_SrWqwNKFLimmoKrU4DA&s">
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 style="margin-top:40px;">¿Qué son los planos cristalinos?</h3>
+<p style="margin-top:15px;color:#ccc;">
+Son superficies imaginarias que atraviesan un cristal siguiendo el orden repetitivo de sus átomos.<br><br>
+En un sólido cristalino como un metal o una sal, los átomos no están acomodados al azar, sino en un patrón geométrico que se repite en el espacio. Si “cortas”  esa estructura en capas paralelas, esas capas son los planos cristalinos.
+</p>
+<img class="crystalImg" src="https://materialesbuap2013.weebly.com/uploads/1/6/3/3/16339076/5638096.jpg?394">
+<p style="text-align:center;color:#aaa;">
+Imagen referencia de planos cristalinos.
+</p>
+
+<br><br>
+<h3 id="miller">Indices Miller</h3>
+
+<h3 style="margin-top:40px;">¿Qué son los índices de Miller?</h3>
+<p style="margin-top:15px;color:#ccc;">
+Los índices de Miller son un sistema de notación matemática compuesto por tres números enteros 
+ que se utilizan para identificar y describir la orientación de los planos atómicos y las direcciones dentro de una red cristalina. 
+Si un cristal fuese un edificio infinito; los índices de Miller nos dan las "coordenadas" para saber exactamente en qué ángulo están cortadas las paredes de átomos.
+</p>
+
+<h4 style="margin-top:40px;">Interpretación Física</h4>
+<p style="margin-top:15px;color:#ccc;">
+Cuando (h² + k² + l²) aumenta, la distancia interplanar disminuye.
+Esto significa que los planos están más cercanos entre sí.
+</p>
+<img class="crystalImg" src="https://cdn.britannica.com/04/237504-050-04A644A6/diagram-Miller-indices-planes-cubic-crystal.jpg">
+<p style="text-align:center;color:#aaa;">
+Planos cristalinos representados con índices de Miller.
+</p>
+
+<h3 style="margin-top:40px;">¿Como se determinan los índices de Miller?</h3>
+<p style="margin-top:15px;color:#ccc;">
+1. Identificar las intersecciones: Se busca en qué puntos el plano corta los ejes de la celda unitaria (x,y,z). Estas distancias se miden en términos de los parámetros de red (a,b, c).<br><br>
+2. Tomar los recíprocos: Se invierten esos valores (se calcula  1/x).<br><br>
+3. Simplificar: Se multiplican los resultados por el mínimo común múltiplo para eliminar fracciones y obtener los números enteros más pequeños posibles.<br><br>
+4. Notación: Se encierran entre paréntesis sin comas.
+</p>
+
+<h3 style="margin-top:40px;">Ejemplos de sistema cubico</h3>
+<p style="margin-top:15px;color:#ccc;">
+<table class="crystalTable">
+  <thead>
+    <tr>
+      <th>Índices (hkl)</th>
+      <th>Descripción del Plano</th>
+      <th>Intersecciones con Ejes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>(1 0 0)</strong></td>
+      <td>Cara frontal del cubo. Paralelo a los ejes Y y Z.</td>
+      <td>x=1, y=∞, z=∞</td>
+    </tr>
+    <tr>
+      <td><strong>(1 1 0)</strong></td>
+      <td>Plano diagonal que corta el cubo a la mitad verticalmente.</td>
+      <td>x=1, y=1, z=∞</td>
+    </tr>
+    <tr>
+      <td><strong>(1 1 1)</strong></td>
+      <td>Plano inclinado que une tres esquinas opuestas.</td>
+      <td>x=1, y=1, z=1</td>
+    </tr>
+    <tr>
+      <td><strong>(2 0 0)</strong></td>
+      <td>Plano paralelo al (100) pero a la mitad de la celda.</td>
+      <td>x=1/2, y=∞, z=∞</td>
+    </tr>
+  </tbody>
+</table>
+</p>
+
+<h3 id="bragg">Ley de Bragg</h3>
+<h3 style="margin-top:40px;">¿Que es la Ley de Bragg?</h3>
+<p style="margin-top:15px;color:#ccc;">
+Esta explica cómo se produce la difracción de rayos X en materiales con estructura atómica periódica. Permite determinar los ángulos específicos en los que ocurre una interferencia constructiva cuando los rayos X interactúan con los planos cristalinos. <br><br>
+Gracias a ello, es posible analizar la disposición interna de los átomos en un cristal y estudiar su estructura. 
+</p>
+
+<div style="margin-top:20px;background:#111;padding:20px;border:2px solid var(--pink);font-size:22px;text-align:center;">
+nλ = 2d sen(θ)
+</div>
+
+<h8 style="margin-top:40px;">Relación con la Ley de Bragg</h8>
+
+
+<img class="crystalImg" src="https://myscope.training/images/XRD-module/figure_19.jpg">
+<p style="text-align:center;color:#aaa;">
+Difracción de rayos X según la Ley de Bragg.
+</p>
+
+<h3 style="margin-top:40px;">Interferencia/Disfraccion de rayos</h3>
+<p style="margin-top:15px;color:#ccc;">
+La difracción ocurre cuando una onda interactúa con obstáculos del tamaño comparable a su longitud de onda.Los rayos X tienen longitud de onda del orden de:<br><br>
+10<sup>-10</sup> m. Que es justo del tamaño de la separación entre átomos, cada átomo dispersa la onda las cuales se superponen lo que pueden hacer que se refuerzen o se cancelen.
+Eso es interferencia.
+</p>
+
+<h3 style="margin-top:40px;">Reflexion de rayos en un crisrtal</h3>
+<p style="margin-top:15px;color:#ccc;">
+Cuando un rayo X llega a un cristal los átomos están ordenados en planos paralelos y cada plano actúa como si fuera un “espejo” microscópico<br><br>
+El rayo incide con un ángulo θ y se refleja con el mismo,en realidad no es un espejo sólido, sino una red de átomos que dispersan la onda electromagnética.
+</p>
+
+<img class="crystalImg" src="https://www.xtal.iqf.csic.es/Cristalografia/archivos_05/braggslaw1.gif">
+<p style="text-align:center;color:#aaa;">
+Imagen referencia de reflexion de rayos en un cristal.
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+<section id="games">
+<h2>Simulaciones Conceptuales</h2>
+
+<div class="gameBox">
+<h3>Arkanoid - Doh It Again</h3>
+<iframe src="https://www.retrogames.cc/snes-games/arkanoid-doh-it-again-europe.html"></iframe>
+<p style="margin-top:15px;color:#ccc;">
+Los bloques representan planos cristalinos paralelos.
+La pelota simula un haz incidente.
+Cada rebote simboliza la reflexión entre planos separados por una distancia perpendicular d.
+</p>
+</div>
+
+<div class="gameBox">
+<h3>Tetris</h3>
+<iframe src="https://www.retrogames.cc/nes-games/tetris-usa.html"></iframe>
+<p style="margin-top:15px;color:#ccc;">
+Las piezas forman estructuras periódicas.
+Cada fila completa representa un plano cristalino.
+La separación constante entre filas simboliza la distancia interplanar.
+</p>
+</div>
+
+<div class="gameBox">
+<h3>Galaga - Demons of Death (USA)</h3>
+<iframe src="https://www.retrogames.cc/nes-games/galaga-demons-of-death-usa.html"></iframe>
+<p style="margin-top:15px;color:#ccc;">
+Las formaciones enemigas aparecen organizadas en patrones simétricos y repetitivos.
+Cada fila de enemigos puede interpretarse como un plano cristalino.
+La separación regular entre filas representa la distancia perpendicular entre planos.
+La periodicidad espacial refleja la estructura ordenada de una red cristalina,
+fundamental para entender la difracción y propiedades del material.
+</p>
+</div>
+
+</section>
+
+<script>
+
+/* ESTATICA */
+function showStatic(){
+let c=document.getElementById("static");
+let ctx=c.getContext("2d");
+c.style.display="block";
+c.width=window.innerWidth;
+c.height=window.innerHeight;
+
+let img=ctx.createImageData(c.width,c.height);
+let buffer=img.data;
+
+for(let i=0;i<buffer.length;i+=4){
+let val=Math.random()*255;
+buffer[i]=val;
+buffer[i+1]=val;
+buffer[i+2]=val;
+buffer[i+3]=255;
+}
+ctx.putImageData(img,0,0);
+
+setTimeout(()=>c.style.display="none",200);
+}
+
+function changeSection(id){
+showStatic();
+
+setTimeout(()=>{
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+
+/* 🔽 FORZAMOS SCROLL SUAVE AL INICIO */
+window.scrollTo({
+top: 0,
+behavior: "smooth"
+});
+
+let subNav = document.getElementById("subNav");
+
+if(id === "teoria"){
+subNav.style.display = "flex";
+}else{
+subNav.style.display = "none";
+}
+
+},150);
+}
+
+function scrollToSection(id){
+document.getElementById(id).scrollIntoView({
+behavior: "smooth",
+block: "start"
+});
+}
+
+/* VHS efecto */
+let vhs=document.getElementById("vhs");
+let vctx=vhs.getContext("2d");
+function drawVHS(){
+vhs.width=window.innerWidth;
+vhs.height=window.innerHeight;
+vctx.clearRect(0,0,vhs.width,vhs.height);
+for(let i=0;i<vhs.height;i+=3){
+vctx.fillStyle="rgba(255,255,255,0.04)";
+vctx.fillRect(0,i,vhs.width,1);
+}
+requestAnimationFrame(drawVHS);
+}
+drawVHS();
+
+let geoCanvas = document.getElementById("geometry");
+let gctx = geoCanvas.getContext("2d");
+
+function resizeGeo(){
+geoCanvas.width = window.innerWidth;
+geoCanvas.height = window.innerHeight;
+}
+resizeGeo();
+window.addEventListener("resize", resizeGeo);
+
+let cubes = [];
+
+for(let i=0;i<6;i++){
+cubes.push({
+x: Math.random()*window.innerWidth,
+y: Math.random()*window.innerHeight,
+size: 80 + Math.random()*80,
+angle: Math.random()*Math.PI,
+speed: 0.002 + Math.random()*0.003
+});
+}
+
+function drawCube(x,y,size,angle){
+let s = size/2;
+
+let points = [
+[-s,-s], [s,-s], [s,s], [-s,s],
+[-s+20,-s-20], [s+20,-s-20], [s+20,s-20], [-s+20,s-20]
+];
+
+gctx.beginPath();
+points.forEach(p=>{
+let rx = p[0]*Math.cos(angle)-p[1]*Math.sin(angle);
+let ry = p[0]*Math.sin(angle)+p[1]*Math.cos(angle);
+p[0]=rx; p[1]=ry;
+});
+
+gctx.strokeStyle="rgba(0,255,213,0.25)";
+gctx.lineWidth=1.2;
+
+// cara frontal
+gctx.moveTo(x+points[0][0],y+points[0][1]);
+for(let i=1;i<4;i++){
+gctx.lineTo(x+points[i][0],y+points[i][1]);
+}
+gctx.closePath();
+
+// cara trasera
+gctx.moveTo(x+points[4][0],y+points[4][1]);
+for(let i=5;i<8;i++){
+gctx.lineTo(x+points[i][0],y+points[i][1]);
+}
+gctx.closePath();
+
+// conexiones
+for(let i=0;i<4;i++){
+gctx.moveTo(x+points[i][0],y+points[i][1]);
+gctx.lineTo(x+points[i+4][0],y+points[i+4][1]);
+}
+
+gctx.stroke();
+}
+
+function animateGeo(){
+gctx.clearRect(0,0,geoCanvas.width,geoCanvas.height);
+
+cubes.forEach(c=>{
+drawCube(c.x,c.y,c.size,c.angle);
+c.angle += c.speed;
+});
+
+requestAnimationFrame(animateGeo);
+}
+
+animateGeo();
+</script>
+
+<div class="footer-panel">
+
+    <div class="footer-left">
+        <h3>Fuentes consultadas</h3>
+
+        <p><strong>Videos educativos:</strong></p>
+        <p><a href="https://www.youtube.com/watch?v=LuqffdSvZbo" target="_blank">Índices de Miller – explicación práctica</a></p>
+        <p><a href="https://www.youtube.com/watch?v=o1K7JSq2zeg" target="_blank">Distancia interplanar – Ley de Bragg</a></p>
+        <p><a href="https://www.youtube.com/watch?v=x-tN3DvHO3s" target="_blank">Ejercicio Ley de Bragg (111)</a></p>
+        <p><a href="https://www.youtube.com/watch?v=04x7lgfumi0" target="_blank">Distancia interplanar en plata FCC</a></p>
+        <p><a href="https://www.youtube.com/watch?v=UcjCoCB5YlY" target="_blank">Difracción RX – todos los sistemas</a></p>
+        <p><a href="https://www.youtube.com/watch?v=HpSrcgUXHXM" target="_blank">Física Moderna – explicación teórica</a></p>
+        <p><a href="https://www.youtube.com/watch?v=JuaEh6WjRiw" target="_blank">Problema Ley de Bragg – UPV</a></p>
+
+        <br>
+
+        <p><strong>Simuladores y recursos interactivos:</strong></p>
+        <p><a href="https://www.omnicalculator.com/physics/braggs-law" target="_blank">Omni Calculator – Ley de Bragg</a></p>
+        <p><a href="http://hyperphysics.phy-astr.gsu.edu/hbasees/quantum/bragg.html" target="_blank">HyperPhysics – Bragg</a></p>
+        <p><a href="https://www.xtal.iqf.csic.es/Cristalografia/parte_05_5.html" target="_blank">Modelo interactivo CSIC</a></p>
+        <p><a href="https://wayground.com/admin/quiz/64fa1c9c55456979998cbab6/indices-de-miller-y-ley-de-bragg" target="_blank">Quiz – Índices de Miller</a></p>
+
+        <br>
+
+        <p><strong>Recursos académicos IPN y México:</strong></p>
+        <p><a href="https://www.test.desarrolloweb.ipn.mx/assets/files/esfm/docs/jornadas/revista-didactica-ciencias-iv.pdf" target="_blank">Revista Didáctica ESFM-IPN</a></p>
+        <p><a href="https://tesis.ipn.mx/" target="_blank">Repositorio Tesis IPN</a></p>
+        <p><a href="https://cimav.repositorioinstitucional.mx/" target="_blank">Repositorio CIMAV</a></p>
+
+    </div>
+
+  <div class="footer-right">
+    <div class="datos">
+        <p>Nombres: Monroy Nuevo Ian Engel y Ramos Olvera Cesar Tadeo</p><br><br>
+        <p>Grupo: 1EM14</p><br><br>
+        <p>Materia: Quimica de los materiales</p><br><br>
+        <p>Profesor: Salazar Galván Martha Elvia</p>
+    </div>
+
+    <div class="escudo">
+        <?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="900.000000pt" height="474.000000pt" viewBox="0 0 900.000000 474.000000"
+ preserveAspectRatio="xMidYMid meet">
+
+<g transform="translate(0.000000,474.000000) scale(0.100000,-0.100000)"
+fill="var(--neon)" stroke="none">
+<path d="M4077 4721 c-48 -10 -92 -22 -97 -27 -21 -22 -41 -141 -41 -243 0
+-98 8 -142 46 -276 5 -18 -8 -25 -117 -63 -68 -24 -127 -44 -131 -45 -4 -1
+-17 22 -27 52 -11 30 -34 80 -52 110 -38 65 -187 217 -239 245 l-35 18 -93
+-52 c-85 -48 -92 -54 -87 -78 2 -15 8 -48 11 -75 14 -105 72 -241 150 -345 44
+-61 46 -65 31 -88 -15 -22 -23 -24 -129 -26 l-112 -3 3 -32 c2 -18 1 -33 -3
+-33 -3 0 -34 24 -69 54 -79 66 -186 130 -277 163 -62 23 -71 24 -82 11 -6 -9
+-41 -50 -76 -92 l-64 -76 -168 0 -169 0 -40 -62 c-68 -105 -196 -375 -245
+-518 -52 -152 -101 -341 -111 -430 l-7 -60 417 0 c393 0 417 -1 412 -17 -3
+-10 -10 -54 -16 -99 l-12 -81 -46 9 c-56 10 -212 12 -268 3 -58 -10 -133 -35
+-188 -62 l-49 -25 7 -101 c8 -120 9 -122 131 -163 72 -25 95 -28 223 -29 177
+-1 179 -3 212 -145 11 -52 23 -102 26 -111 4 -13 -5 -18 -43 -24 -121 -18
+-335 -127 -412 -209 l-24 -26 27 -93 c15 -52 32 -100 37 -108 6 -11 34 -14
+121 -13 126 0 223 22 341 76 37 17 69 29 71 27 2 -2 26 -43 54 -91 l52 -88
+-240 0 c-132 0 -240 -3 -239 -7 0 -5 14 -37 32 -73 46 -92 67 -104 187 -108
+l99 -4 -48 -66 c-59 -81 -111 -168 -111 -186 0 -7 30 -52 66 -101 77 -101 74
+-101 203 -40 105 50 198 114 272 189 l64 64 102 -91 101 -91 -43 -60 c-90
+-128 -155 -295 -155 -402 l0 -52 96 -58 95 -57 80 79 c87 86 180 216 219 306
+14 32 28 58 31 58 4 0 9 -73 12 -163 5 -165 14 -213 55 -293 26 -51 61 -83
+109 -99 31 -11 39 -19 46 -48 l8 -35 104 -16 c57 -9 113 -16 124 -16 25 0 77
+97 120 224 25 75 36 94 104 167 l75 82 81 -81 c73 -73 84 -89 102 -149 23 -75
+77 -184 112 -225 l22 -26 105 24 c135 31 130 28 130 63 0 26 4 31 34 36 43 9
+80 34 112 76 44 59 56 121 63 304 l6 170 44 -89 c53 -106 140 -217 213 -273
+88 -67 82 -67 185 -9 90 49 93 52 93 87 0 46 -37 191 -63 249 -30 64 -84 150
+-120 187 -17 18 -29 34 -26 36 2 3 51 43 108 91 l104 87 66 -64 c103 -99 211
+-164 334 -203 l59 -18 58 64 c90 100 89 96 41 186 -23 43 -55 93 -70 113 -48
+62 -48 64 -3 56 92 -15 246 45 283 110 9 17 20 45 24 62 l7 33 -265 2 -265 3
+54 90 c30 50 57 90 61 90 5 0 39 -15 77 -33 38 -18 99 -41 135 -53 74 -23 238
+-36 290 -22 30 8 36 15 62 87 15 42 31 86 34 96 6 20 -13 43 -86 102 -86 70
+-229 134 -337 153 -23 4 -44 10 -46 13 -8 14 35 248 49 261 11 11 43 14 145
+12 141 -2 257 19 350 63 50 25 49 16 35 168 l-7 77 -66 25 c-113 42 -222 59
+-344 54 l-108 -6 0 33 c0 18 -3 60 -6 94 l-7 62 402 -7 402 -7 -7 44 c-3 24
+-15 86 -25 138 -10 52 -19 98 -19 103 0 4 -79 8 -177 8 -173 0 -176 0 -159 19
+16 18 16 21 -4 60 l-20 41 148 0 c82 0 151 2 154 6 9 9 -27 135 -60 207 l-31
+67 -295 0 -296 0 0 53 0 54 257 6 c141 4 258 9 261 12 9 9 -30 95 -82 182
+l-53 88 -175 3 -175 2 -64 76 -64 75 -45 -6 c-98 -15 -235 -85 -328 -170 l-41
+-36 -3 28 -3 28 -101 3 c-96 3 -102 4 -128 31 l-28 29 47 63 c86 117 132 233
+142 360 l6 76 -87 52 -86 53 -44 -26 c-98 -57 -225 -215 -272 -336 -9 -25 -20
+-49 -25 -54 -7 -8 -69 15 -210 78 l-57 25 21 58 c17 48 20 84 21 213 1 98 -4
+174 -12 206 l-13 51 -82 12 c-129 18 -142 16 -165 -21 -70 -113 -113 -237
+-133 -380 l-12 -88 -136 0 -136 0 -1 93 c-1 106 -20 182 -70 277 -39 75 -90
+140 -107 139 -7 0 -52 -9 -100 -18z m151 -64 c78 -115 117 -251 110 -382 l-3
+-60 155 0 155 0 8 70 c15 146 85 345 143 412 19 21 21 21 106 8 48 -7 91 -16
+97 -19 37 -23 39 -341 3 -454 -11 -34 -16 -64 -12 -67 23 -14 265 -115 275
+-115 7 0 37 51 68 113 61 124 130 209 220 271 l54 37 81 -48 82 -48 -6 -45
+c-20 -150 -66 -266 -154 -380 l-49 -65 29 -27 c17 -15 30 -29 30 -31 0 -2 -13
+-2 -29 1 -25 3 -33 -2 -57 -37 -14 -23 -30 -41 -35 -41 -5 0 -47 25 -94 56
+-163 106 -366 188 -586 236 -91 19 -133 22 -329 22 -196 0 -238 -3 -329 -22
+-160 -35 -284 -78 -428 -148 l-131 -64 -103 0 c-98 0 -101 1 -86 18 10 10 17
+23 17 28 0 5 -20 36 -45 69 -83 108 -141 249 -159 386 l-7 46 82 47 c45 25 85
+46 89 46 16 0 145 -109 181 -153 64 -76 100 -142 142 -259 5 -15 21 -12 149
+33 78 28 144 52 146 54 3 2 -7 46 -21 97 -14 51 -29 120 -32 154 -6 59 6 183
+25 255 10 36 10 36 92 51 46 8 90 16 98 17 8 0 34 -27 58 -62z m527 -623 c233
+-36 454 -122 666 -259 l70 -45 -22 -33 c-12 -17 -24 -34 -25 -36 -2 -2 -35 18
+-73 44 -169 111 -357 191 -562 236 -91 21 -131 24 -319 24 -247 0 -337 -15
+-534 -88 -98 -36 -123 -41 -211 -44 l-100 -3 70 36 c317 165 682 224 1040 168z
+m-1948 -75 c80 -30 195 -99 281 -170 l72 -59 0 -145 0 -145 -50 -69 c-63 -87
+-155 -241 -176 -298 l-17 -43 -292 0 -292 0 -56 41 c-48 35 -55 45 -46 60 9
+18 28 19 344 19 l335 0 0 83 c0 76 3 86 35 137 l35 55 -26 20 c-15 11 -52 39
+-82 63 l-55 42 45 0 46 0 7 73 c4 39 5 101 3 137 l-3 64 -147 -3 c-82 -1 -148
+0 -148 4 0 5 122 155 127 155 1 0 28 -10 60 -21z m1811 -9 c265 -24 503 -105
+719 -246 49 -31 89 -58 91 -59 6 -5 -118 -185 -126 -185 -4 1 -63 84 -131 185
+l-124 185 -139 0 -138 0 0 -115 0 -114 -30 -16 c-53 -28 -60 -55 -60 -250 0
+-161 2 -177 20 -195 11 -11 31 -22 45 -26 24 -6 25 -9 24 -75 -1 -38 -4 -69
+-8 -69 -3 0 -28 9 -56 19 -27 10 -78 25 -112 31 l-63 13 0 398 0 399 -135 0
+-135 0 0 -118 0 -118 -62 4 c-45 2 -79 -2 -120 -17 l-57 -20 -3 132 -3 132
+-70 5 -70 5 115 38 c135 44 238 66 358 76 127 12 146 12 270 1z m1691 -49 c28
+-33 51 -62 51 -65 0 -3 -65 -6 -145 -6 l-145 0 0 -189 0 -189 -30 -11 c-16 -5
+-30 -13 -30 -16 0 -3 14 -32 30 -65 29 -57 30 -64 30 -196 l0 -137 -50 98
+c-28 54 -80 143 -116 196 l-66 98 8 161 7 161 63 58 c69 63 157 115 244 142
+84 27 91 25 149 -40z m-2061 -329 c20 -13 13 -422 -8 -433 -8 -4 -61 -31 -117
+-58 l-103 -51 0 200 0 200 -107 0 c-97 0 -105 1 -87 15 38 26 166 87 233 110
+66 23 165 32 189 17z m519 -217 c-1 -146 -6 -225 -12 -225 -6 0 -20 7 -31 15
+-28 19 -38 114 -28 266 6 97 10 115 31 140 14 16 29 29 33 29 5 0 8 -101 7
+-225z m-1920 147 c33 -26 70 -54 83 -63 22 -14 22 -16 6 -47 -21 -40 -30 -41
+-21 -3 3 17 2 32 -4 36 -6 3 -135 6 -286 5 -151 0 -275 2 -275 6 0 3 12 28 27
+55 32 56 23 54 264 57 l146 2 60 -48z m1070 13 c-38 -20 -85 -46 -105 -60 -35
+-24 -42 -25 -204 -25 l-168 0 0 60 0 60 273 0 272 -1 -68 -34z m2153 -127 l-1
+-43 -18 35 c-14 25 -16 37 -8 42 22 14 27 8 27 -34z m-2954 -206 c-109 -188
+-177 -386 -206 -609 -12 -90 -8 -388 6 -460 l6 -32 -55 30 -55 30 -8 66 c-9
+87 1 373 15 443 7 30 14 65 17 77 3 17 12 22 42 25 l37 3 3 127 3 127 57 114
+c32 62 85 151 118 198 l59 84 3 -73 c3 -71 2 -76 -42 -150z m2831 39 c30 -51
+71 -128 89 -171 32 -73 34 -85 34 -189 l0 -111 34 0 c33 0 35 -2 46 -52 27
+-128 40 -393 24 -512 -6 -43 -10 -48 -61 -76 l-55 -29 6 32 c4 18 9 111 13
+207 6 194 -6 308 -53 481 -29 109 -99 280 -149 362 -32 53 -35 64 -35 135 l1
+77 25 -30 c14 -16 50 -72 81 -124z m-2781 -33 l-1 -33 201 -3 202 -2 23 -35
+c15 -22 44 -43 79 -59 l55 -25 -281 0 -281 -1 -8 -130 c-4 -71 -4 -134 0 -140
+3 -5 36 -10 72 -10 58 0 64 -2 58 -17 -53 -127 -60 -165 -60 -343 0 -189 19
+-322 54 -370 24 -34 78 -60 125 -60 32 0 64 16 183 92 l145 93 -6 35 c-20 128
+-17 269 10 376 7 28 -37 70 -131 126 -38 23 -79 48 -90 55 -16 11 11 13 173
+13 l193 0 -35 -31 c-19 -17 -46 -54 -59 -82 -43 -92 -52 -150 -51 -332 1 -174
+17 -294 63 -457 10 -38 16 -68 12 -68 -3 0 -62 41 -130 90 -69 49 -128 87
+-133 84 -4 -3 -8 -45 -8 -93 0 -89 -5 -107 -24 -92 -12 9 -106 59 -376 200
+-96 50 -180 94 -187 99 -7 4 -16 37 -22 72 -47 306 3 632 140 915 47 99 85
+165 93 165 2 0 3 -15 2 -32z m2754 -153 c126 -272 174 -602 130 -890 -6 -33
+-10 -63 -10 -67 0 -3 -62 -40 -137 -81 -198 -108 -436 -237 -438 -237 -1 0 -5
+39 -8 86 -3 48 -9 89 -12 92 -3 3 -66 -35 -140 -86 -74 -51 -135 -88 -135 -82
+0 5 11 53 25 107 72 289 89 549 44 693 -36 113 -118 192 -191 181 -4 0 -5 25
+-4 57 2 31 4 71 5 88 1 29 5 32 39 37 20 3 46 8 58 12 17 5 30 -8 84 -84 35
+-50 66 -91 69 -91 4 0 62 79 130 175 67 96 125 175 127 175 2 0 4 -79 4 -175
+0 -134 -3 -175 -13 -175 -6 0 -73 -38 -147 -84 l-135 -83 5 -74 c7 -109 6
+-277 -2 -334 l-8 -50 166 -98 166 -99 54 27 c82 40 98 72 124 252 21 145 7
+307 -40 452 -11 35 -20 68 -20 72 0 5 26 9 58 9 l59 0 6 128 c4 70 7 165 7
+212 l0 85 22 -35 c11 -19 38 -71 58 -115z m-2182 78 c6 -59 -6 -65 -67 -35
+-30 15 -61 37 -69 50 l-15 23 74 -3 74 -3 3 -32z m3001 -2 c18 -34 18 -40 5
+-60 -15 -20 -22 -21 -205 -21 l-189 0 0 60 0 60 185 0 185 0 19 -39z m-2479
+-55 l0 -65 -52 -24 c-29 -13 -83 -47 -120 -76 l-68 -52 0 85 0 85 111 56 c61
+30 115 55 120 55 5 0 9 -29 9 -64z m873 -93 c-9 -7 -32 -13 -50 -13 l-33 0 0
+82 0 82 49 -70 c45 -62 48 -70 34 -81z m-2873 97 l35 -29 -47 -1 c-50 0 -51 1
+-42 38 8 28 12 28 54 -8z m2368 -65 c34 -8 80 -24 102 -35 39 -20 40 -22 40
+-71 0 -37 -3 -50 -12 -46 -93 41 -141 58 -180 63 l-48 7 0 48 c0 57 1 57 98
+34z m-368 -75 c0 -49 -1 -50 -53 -83 -29 -19 -69 -48 -89 -66 -32 -28 -38 -30
+-67 -20 -49 17 -42 48 25 107 49 44 155 111 177 112 4 0 7 -22 7 -50z m440
+-73 c54 -27 65 -36 65 -57 0 -21 6 -25 35 -28 19 -2 45 -13 58 -25 l22 -21
+-45 -25 c-25 -14 -62 -39 -84 -54 l-38 -28 -56 38 c-52 36 -56 41 -59 83 -3
+43 -5 45 -35 48 -33 3 -33 3 -33 59 l0 56 53 -7 c28 -4 81 -22 117 -39z m-444
+-49 l-1 -43 73 -3 72 -3 0 -34 c0 -22 -5 -35 -13 -35 -7 0 -34 -13 -60 -30
+l-47 -30 -47 36 c-25 19 -64 44 -85 55 -39 20 -40 21 -21 41 18 21 113 88 124
+88 3 0 5 -19 5 -42z m324 -82 c0 -41 3 -46 43 -69 74 -44 75 -42 -33 -148
+l-97 -96 -97 103 -96 103 27 19 c16 11 43 27 61 36 27 14 32 22 32 51 l0 34
+58 4 c31 2 67 4 80 5 20 2 22 -2 22 -42z m375 29 c-39 -18 -60 -18 -75 0 -11
+13 -5 15 46 14 58 -1 59 -1 29 -14z m-2139 -27 c-27 -131 -38 -264 -33 -411
+l4 -157 -31 19 c-82 49 -368 192 -373 187 -4 -3 -4 -8 -2 -9 2 -2 43 -33 92
+-69 63 -48 83 -67 71 -72 -8 -3 -55 -6 -103 -6 -91 0 -201 24 -271 60 -42 21
+-50 46 -50 153 l0 58 53 24 c94 43 174 60 287 59 58 -1 125 -6 150 -12 32 -8
+46 -8 51 0 4 6 13 55 20 110 l12 98 65 0 65 0 -7 -32z m751 -34 c60 -36 118
+-75 131 -87 21 -21 21 -26 11 -81 -13 -74 -16 -191 -6 -287 l8 -76 -137 -87
+c-75 -48 -144 -87 -153 -88 -48 -4 -74 5 -106 35 -31 28 -37 43 -54 132 -42
+209 -35 388 20 527 30 76 32 78 110 78 67 0 72 -2 176 -66z m2125 48 c10 -11
+46 -143 57 -212 16 -97 13 -232 -8 -353 -21 -122 -36 -146 -107 -178 l-42 -19
+-156 92 -156 93 8 55 c8 64 9 158 2 288 l-5 94 125 79 125 80 75 -7 c41 -3 78
+-9 82 -12z m642 -19 c3 -21 6 -68 6 -104 l0 -67 123 5 c132 6 238 -9 342 -48
+60 -22 54 -10 70 -161 6 -55 6 -57 -24 -72 -59 -31 -163 -59 -265 -70 -54 -7
+-176 3 -175 13 0 3 46 39 102 80 56 41 97 76 90 78 -9 3 -218 -105 -379 -197
+l-31 -18 4 157 c5 145 -6 278 -33 409 l-6 32 84 0 85 0 7 -37z m-2203 -180
+c47 -25 53 -31 49 -53 -3 -14 -5 -61 -5 -105 1 -89 25 -151 84 -214 l31 -33
+-47 -84 c-27 -46 -51 -84 -56 -84 -17 0 -103 89 -139 144 -53 81 -79 172 -79
+272 -1 84 15 164 35 176 23 15 74 7 127 -19z m861 -28 c5 -16 10 -70 10 -120
+1 -144 -41 -250 -141 -357 -33 -35 -61 -61 -64 -58 -2 3 -24 37 -50 77 l-45
+71 39 43 c55 60 82 137 76 219 -2 36 -7 73 -12 82 -6 15 5 23 56 48 81 38 119
+37 131 -5z m57 10 c82 -69 78 -236 -10 -421 -37 -79 -160 -229 -181 -222 -5 2
+-18 19 -30 39 l-20 35 60 61 c68 69 124 173 142 260 12 58 9 221 -5 256 -10
+25 8 21 44 -8z m-1089 -26 c-15 -50 -12 -176 5 -239 26 -97 74 -180 145 -250
+l67 -66 -21 -42 c-11 -23 -24 -42 -28 -42 -5 0 -42 33 -83 74 -95 95 -165 230
+-165 317 0 104 32 232 67 272 22 23 25 17 13 -24z m291 -40 c21 -16 64 -59 95
+-94 l56 -65 -48 -70 c-26 -38 -51 -70 -55 -70 -14 0 -63 66 -87 119 -15 32
+-25 73 -26 105 -1 52 9 106 20 106 3 0 23 -14 45 -31z m543 -11 c11 -42 6
+-124 -10 -171 -14 -43 -87 -138 -96 -127 -23 28 -98 141 -98 147 0 16 174 173
+191 173 4 0 9 -10 13 -22z m311 -308 c-15 -101 -67 -337 -76 -344 -2 -1 -25
+-17 -51 -34 l-47 -32 -34 64 -34 64 43 36 c85 71 180 233 200 341 15 83 15 11
+-1 -95z m-549 -57 c-10 -10 -115 -8 -125 2 -6 6 3 27 26 57 l35 48 35 -51 c19
+-28 32 -53 29 -56z m1748 -33 c-7 -52 -16 -107 -18 -122 -5 -25 -3 -27 52 -39
+145 -30 278 -94 375 -181 l49 -43 -32 -88 c-38 -103 -36 -102 -183 -94 -110 5
+-190 28 -304 86 -34 17 -66 31 -71 31 -5 0 -37 -47 -72 -105 l-62 -105 -73 0
+-74 0 48 78 c97 155 172 333 211 494 11 45 25 85 32 89 7 5 40 28 73 53 32 25
+60 44 61 43 1 -1 -4 -45 -12 -97z m-3468 -108 c40 -159 110 -322 205 -474 l48
+-78 -74 0 -75 0 -61 105 c-34 58 -64 104 -68 103 -3 -2 -28 -15 -56 -29 -27
+-15 -88 -39 -135 -54 -71 -23 -105 -27 -205 -29 l-119 -1 -29 93 -30 93 29 30
+c86 90 313 198 416 199 15 0 29 4 32 9 4 5 -5 56 -19 113 -14 56 -25 106 -25
+110 0 4 32 -17 72 -48 l72 -55 22 -87z m1202 -22 l84 -85 -26 -53 -26 -53 -61
+41 c-33 23 -64 52 -69 66 -10 26 -50 246 -50 273 0 9 15 -11 32 -44 19 -35 67
+-95 116 -145z m457 136 c11 0 34 3 51 7 30 8 32 5 82 -70 l52 -78 -30 -13
+c-17 -7 -63 -17 -103 -24 -60 -9 -86 -8 -151 5 -44 9 -84 21 -89 26 -5 5 11
+39 43 86 l52 77 36 -8 c21 -4 46 -8 57 -8z m1634 -108 c-47 -171 -121 -341
+-209 -476 l-52 -82 -64 0 -63 0 53 75 c66 91 158 270 196 378 26 74 33 85 86
+128 33 26 62 48 66 48 4 1 -2 -32 -13 -71z m-3189 -13 c15 -12 35 -49 49 -90
+34 -99 121 -269 186 -364 30 -45 55 -84 55 -86 0 -3 -27 -5 -59 -5 l-59 0 -52
+82 c-92 142 -192 377 -216 504 l-7 36 40 -28 c21 -16 50 -38 63 -49z m916
+-733 c-10 -28 -19 -38 -38 -40 -20 -2 -43 17 -128 110 l-103 113 -166 5 -166
+5 -62 90 c-65 96 -140 239 -179 342 -13 35 -24 65 -24 67 0 2 198 -144 439
+-325 l440 -330 -13 -37z m858 658 c14 -22 26 -44 26 -49 0 -19 -134 -53 -225
+-58 -93 -6 -165 4 -242 34 l-43 16 22 36 c32 54 31 53 96 37 83 -22 223 -20
+287 3 28 10 51 19 51 20 1 0 13 -17 28 -39z m1276 35 c0 -2 -11 -34 -24 -69
+-38 -99 -130 -272 -191 -358 l-56 -78 -135 0 c-128 0 -136 -1 -157 -23 -12
+-13 -62 -64 -110 -115 -80 -84 -91 -92 -126 -92 -36 0 -37 1 -50 51 -12 46
+-12 52 5 64 11 7 201 150 424 318 223 168 408 306 413 306 4 1 7 -1 7 -4z
+m-1930 -181 c0 -10 -35 -74 -40 -74 -15 0 -39 38 -50 78 -6 24 -14 50 -17 59
+-4 9 17 0 51 -22 31 -21 56 -39 56 -41z m415 22 c104 -1 167 11 269 50 17 6
+83 -103 70 -115 -5 -5 -30 -16 -56 -26 -73 -27 -83 -44 -83 -137 l0 -79 -80
+-55 c-44 -31 -85 -58 -92 -61 -7 -3 -52 23 -100 56 l-88 61 4 69 c4 87 -9 108
+-89 146 -33 16 -60 33 -60 38 0 5 12 30 26 56 l27 47 71 -25 c57 -20 92 -24
+181 -25z m526 -37 l-18 -64 -20 39 -20 40 36 27 c20 14 37 26 38 25 1 -1 -6
+-31 -16 -67z m-779 -71 c31 -15 62 -36 67 -47 10 -19 16 -131 7 -131 -7 0
+-165 110 -170 119 -6 9 26 92 34 88 3 -1 31 -14 62 -29z m658 -53 c0 -5 -159
+-115 -175 -121 -12 -5 -15 6 -15 58 0 76 11 90 93 124 l52 20 23 -39 c12 -21
+22 -40 22 -42z m-1204 -315 c77 -84 116 -119 132 -120 27 0 27 2 -2 -90 -12
+-41 -29 -105 -36 -143 -11 -52 -17 -66 -29 -63 -9 2 -32 7 -52 10 -26 5 -51
+22 -92 64 -31 31 -62 64 -69 73 -7 9 -47 43 -88 76 l-75 60 -110 -4 c-117 -5
+-164 6 -235 57 -38 27 -137 40 -307 40 -139 0 -142 0 -174 27 -30 25 -68 92
+-69 121 0 9 116 12 549 12 l548 0 109 -120z m2894 111 c0 -21 -23 -67 -43 -89
+-54 -58 -182 -93 -272 -75 -69 15 -198 -10 -306 -58 -68 -31 -82 -33 -175 -34
+-119 0 -124 -2 -280 -143 -121 -108 -146 -122 -217 -122 l-54 0 -13 63 c-7 34
+-21 97 -31 141 -11 43 -19 83 -19 87 0 5 20 9 44 9 42 0 46 2 145 110 l103
+110 366 3 c202 1 454 3 560 5 114 1 192 -2 192 -7z m-2365 -98 c41 -21 75 -43
+75 -49 0 -12 -86 -62 -92 -54 -12 18 -67 140 -63 140 3 0 38 -17 80 -37z m643
+-15 c-29 -76 -37 -88 -58 -88 -20 0 -89 55 -80 63 8 7 144 76 152 77 3 0 -3
+-23 -14 -52z m-798 -50 c0 -3 -16 -1 -35 5 -24 7 -34 15 -30 25 3 7 8 25 12
+40 6 24 7 24 29 -19 13 -24 23 -47 24 -51z m952 38 c2 -12 -5 -21 -21 -27 -20
+-8 -22 -7 -16 8 4 10 10 26 12 36 6 21 20 11 25 -17z m-672 -36 c8 -5 12 -11
+10 -13 -3 -2 -26 -18 -51 -36 -42 -29 -49 -31 -70 -20 l-24 12 32 11 c18 6 43
+21 55 34 25 25 27 25 48 12z m377 -9 c6 -10 30 -28 54 -39 l42 -21 -26 -10
+c-24 -9 -33 -6 -75 25 -26 20 -49 38 -52 41 -5 5 21 23 35 23 6 0 15 -8 22
+-19z m-674 -12 c53 -17 46 -29 -19 -29 -47 0 -55 3 -50 16 3 9 6 20 6 26 0 5
+6 7 13 4 6 -2 29 -10 50 -17z m987 -4 c0 -22 -4 -25 -40 -25 -48 0 -52 16 -7
+35 44 19 47 19 47 -10z m-2024 -13 c126 -67 123 -66 241 -67 111 0 112 0 145
+-31 18 -17 60 -51 93 -75 34 -25 78 -63 99 -86 41 -46 108 -83 150 -83 26 0
+27 -2 22 -42 -2 -24 -5 -51 -5 -60 -1 -10 -7 -18 -14 -18 -7 0 -24 -25 -36
+-55 -44 -107 -185 -297 -263 -357 l-34 -26 -82 50 -82 49 0 54 c0 100 58 245
+153 383 27 40 48 74 46 76 -2 1 -47 40 -99 87 -52 46 -103 90 -112 97 -15 12
+-25 5 -85 -56 -78 -79 -163 -139 -266 -188 -121 -57 -122 -57 -190 36 -41 56
+-57 86 -52 99 7 23 74 128 124 195 l36 48 86 -5 c62 -3 98 -10 125 -25z m3256
+-37 c27 -33 65 -92 85 -131 l37 -72 -63 -71 c-35 -39 -66 -71 -70 -71 -22 0
+-133 45 -190 76 -76 42 -175 118 -221 170 -17 20 -36 34 -43 31 -14 -6 -227
+-186 -227 -192 0 -2 23 -34 50 -71 91 -119 160 -290 160 -393 0 -35 -3 -38
+-85 -83 l-85 -46 -58 42 c-31 23 -74 62 -96 86 -53 59 -132 184 -153 242 -11
+31 -23 48 -33 48 -13 0 -19 15 -26 65 l-10 65 50 0 c72 1 119 26 216 116 47
+43 109 97 139 118 l54 40 92 -3 c86 -2 98 0 177 33 82 33 207 67 238 63 8 -1
+36 -29 62 -62z m-2148 -31 c14 -26 26 -49 26 -53 0 -3 -22 -20 -48 -38 -26
+-17 -80 -55 -121 -83 l-73 -53 7 44 c6 38 35 158 51 212 4 14 17 17 69 17 l63
+0 26 -46z m936 7 c16 -61 51 -233 48 -236 -2 -2 -51 32 -109 76 l-106 79 31
+60 31 60 47 0 c46 0 47 -1 58 -39z m-494 -8 l49 -28 -55 -3 c-30 -2 -75 0 -99
+3 l-44 7 49 23 c27 13 50 24 50 24 1 1 23 -11 50 -26z m-21 -46 c90 0 117 -3
+150 -19 22 -11 42 -22 44 -24 7 -6 -222 -324 -234 -324 -5 0 -158 229 -189
+283 l-28 47 54 25 c32 15 61 22 73 18 11 -3 70 -6 130 -6z m-298 -169 c26 -46
+49 -86 51 -90 2 -4 -20 3 -50 17 -70 32 -185 58 -225 51 -18 -2 -33 -3 -33 0
+0 4 191 103 202 103 3 1 28 -36 55 -81z m686 26 l72 -37 -76 -22 c-42 -12
+-107 -39 -145 -59 -59 -33 -66 -35 -51 -14 9 13 38 56 64 95 26 40 51 73 56
+73 4 0 40 -16 80 -36z m150 -81 c68 -29 54 -39 -128 -92 -70 -20 -231 -51
+-267 -51 -64 0 125 115 245 149 67 20 91 18 150 -6z m-926 -11 c45 -11 99 -28
+120 -39 41 -21 92 -85 73 -91 -31 -11 -250 34 -387 79 -48 16 -63 25 -63 40 0
+12 9 21 28 25 15 3 32 7 37 10 19 7 109 -4 192 -24z m-132 -87 c63 -19 169
+-42 235 -52 l120 -17 25 -37 c23 -35 23 -38 6 -53 -10 -9 -23 -16 -29 -16 -6
+0 -17 -12 -24 -27 -17 -36 -137 -136 -201 -168 -53 -26 -123 -33 -157 -15 -22
+12 -20 32 11 169 11 46 18 85 17 86 -2 1 -32 13 -68 26 l-65 25 -3 57 c-2 35
+1 57 8 57 5 0 62 -16 125 -35z m1099 19 c3 -9 6 -35 6 -58 l0 -43 -67 -25
+c-42 -16 -67 -31 -65 -39 2 -7 10 -38 18 -68 8 -31 17 -80 21 -108 5 -51 5
+-53 -23 -64 -35 -13 -93 -1 -169 36 -61 30 -178 123 -170 136 4 5 -2 12 -12
+16 -10 3 -30 17 -45 31 l-27 25 29 37 c28 35 34 37 117 49 93 13 251 50 318
+75 52 19 62 19 69 0z m-1123 -160 c4 -2 2 -23 -3 -46 -6 -24 -16 -72 -22 -107
+l-11 -65 -18 28 c-20 30 -57 164 -57 207 l0 29 52 -21 c29 -11 55 -22 59 -25z
+m1129 -12 c0 -59 -21 -141 -45 -179 l-19 -28 -17 80 c-9 44 -20 94 -24 110 -6
+30 -5 32 42 47 26 9 51 17 56 17 4 1 7 -21 7 -47z m-826 -353 c-14 -41 -40
+-100 -56 -131 -34 -64 -33 -64 -138 -48 -118 19 -120 19 -120 45 0 20 7 26 43
+35 66 16 158 66 228 124 35 29 65 52 67 51 1 -1 -9 -35 -24 -76z m594 -52 c34
+-16 80 -31 102 -34 36 -5 40 -8 40 -34 0 -23 -5 -30 -27 -35 -16 -3 -61 -14
+-102 -25 -41 -10 -78 -16 -83 -13 -27 17 -128 226 -128 265 0 5 30 -15 68 -43
+37 -28 95 -64 130 -81z"/>
+</g>
+</svg>
+    </div>
+</div>
+
+</body>
+
+</html>
